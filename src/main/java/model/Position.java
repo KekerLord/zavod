@@ -2,7 +2,6 @@ package model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 
 @Getter
@@ -12,5 +11,5 @@ public enum Position {
     ENGINEER("инженер"),
     WORKER("рабочий");
 
-    private String name;
+    private final String name;
 }
