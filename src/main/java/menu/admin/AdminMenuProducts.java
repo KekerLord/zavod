@@ -11,9 +11,9 @@ import java.util.Scanner;
 import db.Database;
 import db.IdAlreadyExistsException;
 
-class ProductsMenu {
-    private final static Scanner scanner = new Scanner(System.in);
-    private final static String NEWLINE = System.getProperty("line.separator");
+class AdminMenuProducts {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final String NEWLINE = System.getProperty("line.separator");
 
     static void run() {
         System.out.println("[Список изделий]");
@@ -131,6 +131,6 @@ class ProductsMenu {
         }
     }
 
-    private ProductsMenu() {
+    private AdminMenuProducts() {
     }
 }

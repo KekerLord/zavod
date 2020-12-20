@@ -9,9 +9,9 @@ import java.util.Scanner;
 import db.Database;
 import db.IdAlreadyExistsException;
 
-class PartsMenu {
-    private final static Scanner scanner = new Scanner(System.in);
-    private final static String NEWLINE = System.getProperty("line.separator");
+class AdminMenuParts {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final String NEWLINE = System.getProperty("line.separator");
 
     static void run() {
         System.out.println("[Список деталей]");
@@ -125,6 +125,6 @@ class PartsMenu {
 
     }
 
-    private PartsMenu() {
+    private AdminMenuParts() {
     }
 }
