@@ -10,9 +10,9 @@ import java.util.Scanner;
 import db.Database;
 import db.IdAlreadyExistsException;
 
-class EmployeesMenu {
-    private final static Scanner scanner = new Scanner(System.in);
-    private final static String NEWLINE = System.getProperty("line.separator");
+class AdminMenuEmployees {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final String NEWLINE = System.getProperty("line.separator");
 
     static void run() {
         System.out.println("[Список рабочих]");
@@ -39,7 +39,6 @@ class EmployeesMenu {
                 return;
             default:
         }
-
         run();
     }
 
@@ -142,6 +141,6 @@ class EmployeesMenu {
         }
     }
 
-    private EmployeesMenu() {
+    private AdminMenuEmployees() {
     }
 }

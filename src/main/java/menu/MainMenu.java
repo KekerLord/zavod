@@ -2,7 +2,12 @@ package menu;
 
 import java.util.Scanner;
 
+import db.Database;
 import menu.admin.AdminMenu;
+import menu.engineer.EngineerMenu;
+import menu.worker.WorkerMenu;
+import model.Employee;
+import model.Position;
 
 public class MainMenu {
     private static final Scanner scanner = new Scanner(System.in);
@@ -37,19 +42,30 @@ public class MainMenu {
             System.out.println("Данные введены верно\n");
             AdminMenu.run();
         } else {
-            System.out.println("Неверный логин или пароль");
+            System.out.println("Неверный логин или пароль\n");
         }
     }
 
     private static void employeeLogin() {
         System.out.println("Логин: ");
-        String login = scanner.nextLine();
-        if (login.equals("e-0001")) {
-            System.out.println("Вы - инженер");
-        } else if (login.equals("w-0007")) {
-            System.out.println("Вы - рабочий");
-        } else {
-            System.out.println("Неверные данные");
+        try {
+            Long id = Long.parseLong(scanner.nextLine());
+            Employee employee = Database.findEmployeeById(id);
+
+            if (employee == null)
+                throw new Exception();
+
+            System.out.printf("Вы вошли как %s %n%n", employee);
+            if (employee.getPosition().equals(Position.ENGINEER)) {
+                EngineerMenu engineerMenu = new EngineerMenu(employee);
+                engineerMenu.run();
+            } else if (employee.getPosition().equals(Position.WORKER)) {
+                WorkerMenu workerMenu = new WorkerMenu(employee);
+                workerMenu.run();
+            }
+
+        } catch (Exception ignored) {
+            System.out.println("Неверные данные\n");
         }
     }
 
