@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Part {
+public class Part implements Entity {
     private Long id;
     private String name;
     private Long quantity;
@@ -16,4 +16,3 @@ public class Part {
         return String.format("Деталь: %d %s %d", id, name, quantity);
     }
 }
-

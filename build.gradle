@@ -22,6 +22,10 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 }
 
+run {
+    standardInput = System.in
+}
+
 test {
     useJUnitPlatform()
 }
