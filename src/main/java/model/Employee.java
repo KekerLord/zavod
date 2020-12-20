@@ -7,14 +7,14 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Employee {
-    private String login;
-    private String firstname;
-    private String lastname;
+public class Employee implements Entity {
+    private Long id;
+    private String firstName;
+    private String lastName;
     private String patronymic;
     private Position position;
 
     public String toString() {
-        return String.format("Сотрудник: %s %s %s %s (%s)", login, lastname, firstname, patronymic, position.getName());
+        return String.format("Сотрудник: %s %s %s %s (%s)", id, lastName, firstName, patronymic, position.getName());
     }
 }

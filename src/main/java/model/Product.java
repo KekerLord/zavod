@@ -9,12 +9,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Product {
+public class Product implements Entity {
     private Long id;
     private String name;
     private List<Long> parts;
 
     public String toString() {
-        return String.format("Деталь: %d %s %s", id, name, parts);
+        return String.format("Изделие: %d %s %s", id, name, parts);
     }
 }

@@ -2,17 +2,15 @@ package menu;
 
 import java.util.Scanner;
 
+import menu.admin.AdminMenu;
+
 public class MainMenu {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final String newLine = System.getProperty("line.separator");
+    private static final String NEWLINE = System.getProperty("line.separator");
 
     public static void run() {
-        System.out.println(String.join(newLine,
-                "Войти в учетную запись: ",
-                "(1) Администратор",
-                "(2) Сотрудник",
-                "(0) Выход"
-        ));
+        System.out.println(
+                String.join(NEWLINE, "Войти в учетную запись: ", "(1) Администратор", "(2) Сотрудник", "(-) Выход"));
         String input = scanner.nextLine();
         System.out.println();
         switch (input) {
@@ -22,9 +20,9 @@ public class MainMenu {
             case "2":
                 employeeLogin();
                 break;
-            case "0":
-                System.out.println("[Выход]");
-                return;
+            case "-":
+                System.exit(0);
+                break;
             default:
         }
         run();
@@ -53,5 +51,8 @@ public class MainMenu {
         } else {
             System.out.println("Неверные данные");
         }
+    }
+
+    private MainMenu() {
     }
 }
