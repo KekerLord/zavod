@@ -1,5 +1,6 @@
 package menu.engineer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import lombok.AllArgsConstructor;
@@ -12,12 +13,12 @@ public class EngineerMenu {
 
     private Employee loggedInEmployee;
 
-    public void run() {
+    public void run() throws IOException {
 
-        System.out.println("[Администратор]");
+        System.out.println("[Инженер]");
 
         System.out.println(String.join(NEWLINE, "(1) Список изделий", "(0) Назад", "(-) Выход"));
-        System.out.printf("%s-%d> ", loggedInEmployee.getPosition().getName().charAt(0), loggedInEmployee.getId());
+        System.out.printf("%d> ", loggedInEmployee.getId());
         String input = scanner.nextLine();
         System.out.println();
         switch (input) {

@@ -79,7 +79,7 @@ class AdminMenuEmployees {
             String patronymic = scanner.nextLine();
             employee.setPatronymic(patronymic);
 
-            System.out.println("Роль \n(1) рабочий, \n(2) инженер: ");
+            System.out.println("Роль \n(1) рабочий \n(2) инженер ");
             String position = scanner.nextLine();
             switch (position) {
                 case "1":

@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import db.Database;
 import db.IdAlreadyExistsException;
+import model.ProductPart;
 
 class AdminMenuProducts {
     private static final Scanner scanner = new Scanner(System.in);
@@ -69,20 +70,11 @@ class AdminMenuProducts {
             String input = scanner.nextLine();
             product.setName(input);
 
-            System.out.println("Номера деталей (не число, чтобы сохранить): ");
 
         } catch (Exception e) {
             return;
         }
-        List<Long> parts = new ArrayList<>();
-        for (int i = 0; i < 100; ++i) {
-            try {
-                Long partId = Long.parseLong(scanner.nextLine());
-                parts.add(partId);
-            } catch (Exception e) {
-                break;
-            }
-        }
+        List<ProductPart> parts = new ArrayList<>();
         product.setParts(parts);
 
         for (int i = 0; i < 3; ++i) {

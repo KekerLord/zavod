@@ -12,9 +12,11 @@ import java.util.List;
 public class Product implements Entity {
     private Long id;
     private String name;
-    private List<Long> parts;
+    private List<ProductPart> parts;
+    private ProductStatus status = ProductStatus.UNREADY;
+
 
     public String toString() {
-        return String.format("Изделие: %d %s %s", id, name, parts);
+        return String.format("Изделие: %d %s %s %s", id, name, parts,status.getStatus());
     }
 }
