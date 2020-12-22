@@ -31,36 +31,25 @@ public class Database {
         return file;
     }
 
-    public static <T extends Entity> void saveEntity(Type collectionType, T object, File file)
+    private static <T extends Entity> void saveEntity(Type collectionType, T entity, File file)
             throws IOException, IdAlreadyExistsException {
         try (FileReader fr = new FileReader(file)) {
-            List<T> objects = gson.fromJson(fr, collectionType);
+            List<T> entities = gson.fromJson(fr, collectionType);
             try (FileWriter fw = new FileWriter(file)) {
-                for (T o : objects) {
-                    if (o.getId().equals(object.getId())) {
-                        gson.toJson(objects, fw);
+                for (T o : entities) {
+                    if (o.getId().equals(entity.getId())) {
+                        gson.toJson(entities, fw);
                         throw new IdAlreadyExistsException();
-                    } 
+                    }
                 }
-                objects.add(object);
+                entities.add(entity);
 
-                gson.toJson(objects, fw);
+                gson.toJson(entities, fw);
             }
         }
     }
 
-    public static <T extends Entity> void deleteEntityById(Type collectionType, Long id, File file) throws IOException {
-        try (FileReader fr = new FileReader(file)) {
-            List<T> objects = gson.fromJson(fr, collectionType);
-            objects.removeIf(object -> object.getId().equals(id));
-
-            try (FileWriter fw = new FileWriter(file)) {
-                gson.toJson(objects, fw);
-            }
-        }
-    }
-
-    public static <T extends Entity> T findEntityById(Long id, File file, Type collectionType) throws IOException {
+    private static <T extends Entity> T findEntityById(Long id, File file, Type collectionType) throws IOException {
         try (FileReader fr = new FileReader(file)) {
             List<T> products = gson.fromJson(fr, collectionType);
             for (var product : products) {
@@ -71,9 +60,31 @@ public class Database {
         return null;
     }
 
-    public static <T extends Entity> List<T> getAllEntities(File file, Type collectionType) throws IOException {
+    private static <T extends Entity> void updateEntity(T entity, File file, Type collectionType) throws IOException {
         try (FileReader fr = new FileReader(file)) {
-            return gson.fromJson(fr, collectionType);
+            List<T> entities = gson.fromJson(fr, collectionType);
+            T foundEntity = null;
+            for (T e : entities) {
+                if (e.getId().equals(entity.getId()))
+                    foundEntity = e;
+            }
+            int index = entities.indexOf(foundEntity);
+            entities.set(index, entity);
+
+            try (FileWriter fw = new FileWriter(file)) {
+                gson.toJson(entities, fw);
+            }
+        }
+    }
+
+    private static <T extends Entity> void deleteEntityById(Type collectionType, Long id, File file) throws IOException {
+        try (FileReader fr = new FileReader(file)) {
+            List<T> entities = gson.fromJson(fr, collectionType);
+            entities.removeIf(entity -> entity.getId().equals(id));
+
+            try (FileWriter fw = new FileWriter(file)) {
+                gson.toJson(entities, fw);
+            }
         }
     }
 
@@ -90,7 +101,9 @@ public class Database {
         Type collectionType = new TypeToken<Collection<Employee>>() {
         }.getType();
 
-        return getAllEntities(file, collectionType);
+        try (FileReader fr = new FileReader(file)) {
+            return gson.fromJson(fr, collectionType);
+        }
     }
 
     public static Employee findEmployeeById(Long id) throws IOException {
@@ -100,6 +113,8 @@ public class Database {
 
         return findEntityById(id, file, collectionType);
     }
+
+    // TODO update employee
 
     public static void deleteEmployeeByLogin(Long id) throws IOException {
         File file = getDatabaseFile(DatabasePaths.EMPLOYEES);
@@ -122,7 +137,9 @@ public class Database {
         Type collectionType = new TypeToken<Collection<Part>>() {
         }.getType();
 
-        return getAllEntities(file, collectionType);
+        try (FileReader fr = new FileReader(file)) {
+            return gson.fromJson(fr, collectionType);
+        }
     }
 
     public static Part findPartById(Long id) throws IOException {
@@ -133,32 +150,11 @@ public class Database {
         return findEntityById(id, file, collectionType);
     }
 
+    // TODO update part
+
     public static void deletePartById(Long id) throws IOException {
         File file = getDatabaseFile(DatabasePaths.PARTS);
         Type collectionType = new TypeToken<Collection<Part>>() {
-        }.getType();
-
-        deleteEntityById(collectionType, id, file);
-    }
-
-    public static List<Product> getAllProducts() throws IOException {
-        File file = getDatabaseFile(DatabasePaths.PRODUCTS);
-        Type collectionType = new TypeToken<Collection<Product>>() {
-        }.getType();
-
-        return getAllEntities(file, collectionType);
-    }
-
-    public static Product findProductById(Long id) throws IOException {
-        File file = getDatabaseFile(DatabasePaths.PRODUCTS);
-        Type collectionType = new TypeToken<Collection<Product>>() {
-        }.getType();
-        return findEntityById(id, file, collectionType);
-    }
-
-    public static void deleteProductById(Long id) throws IOException {
-        File file = getDatabaseFile(DatabasePaths.PRODUCTS);
-        Type collectionType = new TypeToken<Collection<Product>>() {
         }.getType();
 
         deleteEntityById(collectionType, id, file);
@@ -170,6 +166,40 @@ public class Database {
         }.getType();
 
         saveEntity(collectionType, product, file);
+    }
+
+    public static List<Product> getAllProducts() throws IOException {
+        File file = getDatabaseFile(DatabasePaths.PRODUCTS);
+        Type collectionType = new TypeToken<Collection<Product>>() {
+        }.getType();
+
+        try (FileReader fr = new FileReader(file)) {
+            return gson.fromJson(fr, collectionType);
+        }
+    }
+
+    public static Product findProductById(Long id) throws IOException {
+        File file = getDatabaseFile(DatabasePaths.PRODUCTS);
+        Type collectionType = new TypeToken<Collection<Product>>() {
+        }.getType();
+        return findEntityById(id, file, collectionType);
+    }
+
+    // TODO update product
+    public static void updateProduct(Product product) throws IOException {
+        File file = getDatabaseFile(DatabasePaths.PRODUCTS);
+        Type collectionType = new TypeToken<Collection<Product>>() {
+        }.getType();
+
+        updateEntity(product, file, collectionType);
+    }
+
+    public static void deleteProductById(Long id) throws IOException {
+        File file = getDatabaseFile(DatabasePaths.PRODUCTS);
+        Type collectionType = new TypeToken<Collection<Product>>() {
+        }.getType();
+
+        deleteEntityById(collectionType, id, file);
     }
 
     private Database() {
