@@ -1,12 +1,17 @@
 package menu.engineer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Scanner;
 
-import com.google.gson.Gson;
 import db.Database;
 import lombok.AllArgsConstructor;
-import model.*;
+import model.Employee;
+import model.Product;
+import model.ProductPart;
+import model.ProductStatus;
 
 @AllArgsConstructor
 class EngineerMenuProducts {
@@ -19,8 +24,7 @@ class EngineerMenuProducts {
         System.out.println("[Список изделий]");
 
         System.out.println(String.join(NEWLINE, "Выберите действие: ", "(1) Все изделия", "(2) Изменить детали изделия",
-                "(3) Состояние изделия", "(4) Приём изделий",
-                "(0) Назад", "(-) Выход"));
+                "(3) Состояние изделия", "(4) Приём изделий", "(0) Назад", "(-) Выход"));
         System.out.printf("%d> ", loggedInEmployee.getId());
         String input = scanner.nextLine();
         System.out.println();
@@ -66,6 +70,10 @@ class EngineerMenuProducts {
         System.out.println("Введите номер изделия: ");
         Long id = Long.parseLong(scanner.nextLine());
         Product product = Database.findProductById(id);
+        if (product == null) {
+            System.out.println("[Не найдено]\n");
+            return;
+        }
         System.out.println("Номера деталей (не число, чтобы сохранить): ");
         List<ProductPart> parts = new ArrayList<>();
         for (int i = 0; i < 100; ++i) {
@@ -78,20 +86,25 @@ class EngineerMenuProducts {
         }
         product.setParts(parts);
         System.out.println(product);
+        Database.updateProduct(product);
     }
 
     private static void statusProduct() throws IOException {
         System.out.println("Введите номер изделия: ");
         Long id = Long.parseLong(scanner.nextLine());
         Product product = Database.findProductById(id);
-
+        if (product == null) {
+            System.out.println("[Не найдено]\n");
+            return;
+        }
+        System.out.println(product);
     }
 
     private static void checkProduct() throws IOException {
         System.out.println("Введите номер изделия: ");
         Long id = Long.parseLong(scanner.nextLine());
         Product product = Database.findProductById(id);
-        System.out.println("Статус \n(1) готово \n(2) брак ");
+        System.out.println("Статус \n(1) принято \n(2) брак ");
         String status = scanner.nextLine();
         switch (status) {
             case "1":
@@ -105,7 +118,6 @@ class EngineerMenuProducts {
                 return;
         }
         System.out.println(product);
+        Database.updateProduct(product);
     }
 }
-
-

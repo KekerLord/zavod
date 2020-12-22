@@ -17,13 +17,15 @@ public class WorkerMenu {
 
         System.out.println("[Рабочий]");
 
-        System.out.println(String.join(NEWLINE, "(0) Назад", "(-) Выход"));
+        System.out.println(String.join(NEWLINE, "(1) Список изделий", "(0) Назад", "(-) Выход"));
         System.out.printf("%d> ", loggedInEmployee.getId());
         String input = scanner.nextLine();
         System.out.println();
         switch (input) {
             case "1":
-            WorkerMenuAssembly.run();
+                WorkerMenuAssembly workerMenuAssembly = new WorkerMenuAssembly(loggedInEmployee);
+                workerMenuAssembly.run();
+                break;
             case "0":
                 return;
             case "-":
